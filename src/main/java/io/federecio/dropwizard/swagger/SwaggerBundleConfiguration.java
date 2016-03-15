@@ -52,7 +52,7 @@ public class SwaggerBundleConfiguration {
      * For most of the scenarios this property is not needed.
      * <p/>
      * This is not a property for Swagger but for bundle to set up Swagger UI
-     * correctly. It only needs to be used of the root path or the context path
+     * correctly. It only needs to be used if the root path or the context path
      * is set programmatically and therefore cannot be derived correctly. The
      * problem arises in that if you set the root path or context path in the
      * run() method in your Application subclass the bundle has already been
