@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="" type="com.federecio.dropwizard.swagger.SwaggerView" -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +46,7 @@
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
-            /*
+          /*  DIL commented out as before
             initOAuth({
               clientId: "your-client-id",
               clientSecret: "your-client-secret-if-required",
@@ -55,7 +55,7 @@
               scopeSeparator: ",",
               additionalQueryStringParams: {}
             });
-            */
+          */
           }
 
           if(window.SwaggerTranslator) {
@@ -65,6 +65,8 @@
           $('pre code').each(function(i, e) {
             hljs.highlightBlock(e)
           });
+
+          addApiKeyAuthorization();
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -76,7 +78,7 @@
         showRequestHeaders: false
       });
 
-      function addApiKeyAuthorization() {
+      function addApiKeyAuthorization(){
         var key = encodeURIComponent($('#input_apiKey')[0].value);
         if(key && key.trim() != "") {
             var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
@@ -85,6 +87,7 @@
         }
       }
 
+      /* DIL added as before in dropwizard-swagger */
       function addAuthorizationHeader() {
         var key = $('#input_authHeader')[0].value;
         if(key && key.trim() != "") {
@@ -93,8 +96,11 @@
             log("added key " + key);
         }
       }
+      /* end DIL */
 
       $('#input_apiKey').change(addApiKeyAuthorization);
+
+      /* DIL added as before in dropwizard-swagger */
       $('#input_authHeader').change(addAuthorizationHeader);
       $('#input_headerSelect').change(function() {
         var toShow = $( this ).val();
@@ -102,12 +108,12 @@
         var toHide = (Number(toShow)+1)%2;
         $('#header_'+toHide).hide();
       });
+      /* end DIL */
 
       // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
       /*
         var apiKey = "myApiKeyXXXX123456789";
         $('#input_apiKey').val(apiKey);
-        addApiKeyAuthorization();
       */
 
       window.swaggerUi.load();
@@ -128,10 +134,10 @@
     <form id='api_selector'>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'>
-          <select id="input_headerSelect">
-              <option value="0">api_key</option>
-              <option value="1">Auth Header</option>
-          </select>
+        <select id="input_headerSelect">
+          <option value="0">api_key</option>
+          <option value="1">Auth Header</option>
+        </select>
       </div>
       <div class='input' id="header_0"><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
       <div class='input' id="header_1" style="display: none;"><input placeholder="Basic ..." id="input_authHeader" name="authHeader" type="text"/></div>
@@ -144,4 +150,3 @@
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>
-
