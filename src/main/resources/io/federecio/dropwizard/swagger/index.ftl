@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Swagger UI</title>
-  <link rel="icon" type="image/png" href="${swaggerAssetsPath}/images/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="${swaggerAssetsPath}/images/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="${swaggerAssetsPath}/images/favicon.ico" />
   <link href='${swaggerAssetsPath}/css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='${swaggerAssetsPath}/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='${swaggerAssetsPath}/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -79,7 +78,7 @@
       });
 
       function addApiKeyAuthorization(){
-        var key = encodeURIComponent($('#input_apiKey')[0].value);
+        var key = encodeURIComponent($('#input_accessToken')[0].value);
         if(key && key.trim() != "") {
             var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
             window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
@@ -98,7 +97,7 @@
       }
       /* end DIL */
 
-      $('#input_apiKey').change(addApiKeyAuthorization);
+      $('#input_accessToken').change(addApiKeyAuthorization);
 
       /* DIL added as before in dropwizard-swagger */
       $('#input_authHeader').change(addAuthorizationHeader);
@@ -113,7 +112,7 @@
       // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
       /*
         var apiKey = "myApiKeyXXXX123456789";
-        $('#input_apiKey').val(apiKey);
+        $('#input_accessToken').val(apiKey);
       */
 
       window.swaggerUi.load();
@@ -130,18 +129,17 @@
 <body class="swagger-section">
 <div id='header'>
   <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.io">swagger</a>
+    <img src="${swaggerAssetsPath}/images/logo.png"/>
     <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'>
-        <select id="input_headerSelect">
-          <option value="0">api_key</option>
-          <option value="1">Auth Header</option>
-        </select>
+        <input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/>
       </div>
-      <div class='input' id="header_0"><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input' id="header_1" style="display: none;"><input placeholder="Basic ..." id="input_authHeader" name="authHeader" type="text"/></div>
-      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
+      <div class='input' id="header_0">
+        <input placeholder="Access Token" id="input_accessToken" name="accessToken" type="text"/>
+      </div>
+      <div class='input'>
+        <a id="explore" href="#" data-sw-translate>Explore</a>
+      </div>
     </form>
   </div>
 </div>
