@@ -65,7 +65,7 @@
             hljs.highlightBlock(e)
           });
 
-          addApiKeyAuthorization();
+          addAuthorizationHeader();
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -76,44 +76,17 @@
         defaultModelRendering: 'schema',
         showRequestHeaders: false
       });
-
-      function addApiKeyAuthorization(){
-        var key = encodeURIComponent($('#input_accessToken')[0].value);
-        if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
-            log("added key " + key);
-        }
-      }
-
-      /* DIL added as before in dropwizard-swagger */
+      
       function addAuthorizationHeader() {
-        var key = $('#input_authHeader')[0].value;
-        if(key && key.trim() != "") {
-            var headerAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", key, "header");
-            window.swaggerUi.api.clientAuthorizations.add("Custom Authorization", headerAuth);
-            log("added key " + key);
+        var token = $('#input_accessToken')[0].value;
+        if(token && token.trim() != "") {
+            var accessTokenAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + token, "header");
+            window.swaggerUi.api.clientAuthorizations.add("oauth", accessTokenAuth);
+            log("added Authorization " + token);
         }
       }
-      /* end DIL */
 
-      $('#input_accessToken').change(addApiKeyAuthorization);
-
-      /* DIL added as before in dropwizard-swagger */
-      $('#input_authHeader').change(addAuthorizationHeader);
-      $('#input_headerSelect').change(function() {
-        var toShow = $( this ).val();
-        $('#header_'+toShow).show();
-        var toHide = (Number(toShow)+1)%2;
-        $('#header_'+toHide).hide();
-      });
-      /* end DIL */
-
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
-        $('#input_accessToken').val(apiKey);
-      */
+      $('#input_accessToken').change(addAuthorizationHeader);
 
       window.swaggerUi.load();
 
@@ -124,6 +97,14 @@
       }
   });
   </script>
+  <style>
+    .auth {
+      display: none;
+    }
+    .access {
+      display: none;
+    }
+  </style>
 </head>
 
 <body class="swagger-section">
