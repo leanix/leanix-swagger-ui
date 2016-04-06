@@ -1,3 +1,5 @@
 /nbproject/private/
 /target/
 *.iml
+.idea/
+src/main/resources/swagger/node_modules
