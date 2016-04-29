@@ -31,10 +31,17 @@
   <script type="text/javascript">
     $(function () {
       var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-        url = window.location.toString().replace("docs", "api-docs");
+
+      // For local testing: Hardcode URL
+      if(window.location.hostname === 'localhost') {
+        url = 'https://local-eam.leanix.net/services/metrics/v1/api-docs/';
+      }
+      else {
+        if (url && url.length > 1) {
+          url = decodeURIComponent(url[1]);
+        } else {
+          url = window.location.toString().replace("docs", "api-docs");
+        }
       }
 
       // Pre load translate...
