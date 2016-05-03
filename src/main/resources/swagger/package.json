@@ -1,0 +1,11 @@
+{
+  "name": "swagger_ui_dev",
+  "description": "Serves the Swagger UI with a lightweight server for development purposes",
+  "version": "0.1.0",
+  "devDependencies": {
+    "lite-server": "^2.2.0"
+  },
+  "scripts": {
+    "dev": "lite-server"
+  }
+}
