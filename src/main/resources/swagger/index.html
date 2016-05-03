@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>leanIX API documentation</title>
+  <title>LeanIX API documentation</title>
   <link rel="icon" type="image/png" href="images/favicon.ico" />
   <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -50,15 +50,20 @@
       }
       window.swaggerUi = new SwaggerUi({
         url: url,
+        validatorUrl : null,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
+          // Disable 'Select OAuth2.0 Scopes' button (authenticate)
+          $(".access").hide();
+          $(".auth").hide();
+
           if(typeof initOAuth == "function") {
             initOAuth({
               clientId: "your-client-id",
               clientSecret: "your-client-secret",
               realm: "your-realms",
-              appName: "your-app-name", 
+              appName: "your-app-name",
               scopeSeparator: ",",
               additionalQueryStringParams: {}
             });
@@ -153,7 +158,7 @@
 <body class="swagger-section">
 <div id='header'>
     <div class="swagger-ui-wrap">
-      <img src="images/logo.png" alt="leanIX"/>
+      <img src="images/logo.png" alt="LeanIX"/>
         <form id='api_selector'>
             <div class='input'>
                 <input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/>
