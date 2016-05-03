@@ -54,6 +54,10 @@
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
+          // Disable 'Select OAuth2.0 Scopes' button (authenticate)
+          $(".access").hide();
+          $(".auth").hide();
+
           if(typeof initOAuth == "function") {
             initOAuth({
               clientId: "your-client-id",
