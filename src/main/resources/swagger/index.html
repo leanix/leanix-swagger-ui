@@ -31,10 +31,17 @@
   <script type="text/javascript">
     $(function () {
       var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-        url = window.location.toString().replace("docs", "api-docs");
+
+      // For local testing: Hardcode URL
+      if(window.location.hostname === 'localhost') {
+        url = 'https://local-eam.leanix.net/services/metrics/v1/api-docs/';
+      }
+      else {
+        if (url && url.length > 1) {
+          url = decodeURIComponent(url[1]);
+        } else {
+          url = window.location.toString().replace("docs", "api-docs");
+        }
       }
 
       // Pre load translate...
@@ -76,13 +83,64 @@
         defaultModelRendering: 'schema',
         showRequestHeaders: false
       });
-      
+
+      function getHostname(url) {
+          var m = url.match(/^https?:\/\/[^/]+/);
+          return m ? m[0] : null;
+      }
+
+      var PersonalAccessTokenAuthorization = function() {
+        this.lastRefresh = new Date();
+      };
+
+      PersonalAccessTokenAuthorization.prototype.apply = function(obj) {
+        var hostName =  getHostname($("#input_baseUrl").val());
+        var targetURL = hostName + '/services/mtm/v1/oauth2/token';
+        var authHeader = 'Basic ' + btoa('PersonalAccessToken:' + $('#input_accessToken').val());
+
+        var requestFinished = false;
+        var accessToken;
+
+        // Refresh token only once per second
+        if (!this.accessToken || ((new Date() - this.lastRefresh) > 1000))
+        {
+          $.ajax({
+            async: false,
+            url: targetURL,
+            type: 'POST',
+            data: {
+              grant_type: 'client_credentials'
+            },
+            headers: {
+              'Authorization': authHeader
+            }
+          }).done(function (data) {
+            accessToken = data['access_token'];
+            requestFinished = true;
+          })
+          .fail(function () {
+            requestFinished = true;
+            alert("Invalid API Token");
+          });
+
+          while(!requestFinished) {
+            ;
+          }
+
+          this.accessToken = accessToken;
+          this.lastRefresh = new Date();
+        }
+
+        obj.headers["Authorization"] = 'Bearer ' + this.accessToken;
+
+        return true;
+      };
+
       function addAuthorizationHeader() {
         var token = $('#input_accessToken')[0].value;
         if(token && token.trim() != "") {
-            var accessTokenAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + token, "header");
-            window.swaggerUi.api.clientAuthorizations.add("token", accessTokenAuth);
-            log("added Authorization " + token);
+            var patAuth = new PersonalAccessTokenAuthorization();
+            window.swaggerUi.api.clientAuthorizations.add("token", patAuth);
         }
       }
 
@@ -108,7 +166,7 @@
                 <input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/>
             </div>
             <div class='input' id="header_0">
-                <input placeholder="Access Token" id="input_accessToken" name="accessToken" type="text"/>
+                <input placeholder="API Token" id="input_accessToken" name="accessToken" type="text"/>
             </div>
             <div class='input'>
                 <a id="explore" href="#" data-sw-translate>Explore</a>
