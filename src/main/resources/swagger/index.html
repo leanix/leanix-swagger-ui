@@ -101,7 +101,7 @@
       PersonalAccessTokenAuthorization.prototype.apply = function(obj) {
         var hostName =  getHostname($("#input_baseUrl").val());
         var targetURL = hostName + '/services/mtm/v1/oauth2/token';
-        var authHeader = 'Basic ' + btoa('PersonalAccessToken:' + $('#input_accessToken').val());
+        var authHeader = 'Basic ' + btoa('apitoken:' + $('#input_accessToken').val());
 
         var accessToken;
 
@@ -158,7 +158,7 @@
 <body class="swagger-section">
 <div id='header'>
     <div class="swagger-ui-wrap">
-      <img src="images/logo.png" alt="LeanIX"/>
+      <a href="https://dev.leanix.net" target="_blank"><img src="images/logo.png" alt="LeanIX" height="25px"/></a>
         <form id='api_selector'>
             <div class='input'>
                 <input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/>
