@@ -3,3 +3,4 @@
 *.iml
 .idea/
 src/main/resources/swagger/node_modules
+package-lock.json
