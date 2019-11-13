@@ -2,7 +2,7 @@
 
 ## Swagger integration
 
-* import `swagger-asset` and `leanix-swagger-ui` library into your microservice 
+* import `dropwizard-assets` and `leanix-swagger-ui` library into your microservice 
 * initialize the swagger-ui servlet  
 
 
@@ -21,16 +21,16 @@ Add dependencies into your project with latest version of leanix-swagger-ui:
 ```
 
 
-Inside your microservice, add the assets and initialize the servlet, which serves the frontend:
+Inside your microservice, add the assets and initialize the servlet, which serves the frontend.
 
-EG, use the provided `ApiDocsAssetServlet` helper class:
+EG, use the provided `ApiDocsAssetServlet` helper class and add this method inside your dropwizard `App` class:
 
 ```java
     /**
      * Adds the swagger servlet for serving swagger.json and swagger UI.
      * @param environment The dropwizard {@linkplain Environment}
      */
-    public void addSwaggerServlet(Environment environment) {
+    private void addSwaggerServlet(Environment environment) {
         // add the servlet for static swagger UI assets (need to put leanix-swagger-ui into the classpath)
         new AssetsBundle("/swagger", "/docs", "index.html", "swagger").run(environment);
 
