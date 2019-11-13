@@ -1,15 +1,34 @@
+# Swagger-ui
 
 ## Swagger integration
 
+* import `swagger-asset` and `leanix-swagger-ui` library into your microservice 
 * initialize the swagger-ui servlet  
-* configure the maven swagger plugin to store the specs under /api-docs
 
-Here is an example how to initialize the swagger ui inside the microservices:
+
+Add dependencies into your project with latest version of leanix-swagger-ui:
+
+```
+        <dependency>
+            <groupId>net.leanix</groupId>
+            <artifactId>leanix-swagger-ui</artifactId>
+            <version>0.1.10-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-assets</artifactId>
+        </dependency>
+```
+
+
+Inside your microservice, add the assets and initialize the servlet, which serves the frontend:
+
+EG, use the provided `ApiDocsAssetServlet` helper class:
 
 ```java
     /**
      * Adds the swagger servlet for serving swagger.json and swagger UI.
-     * @param environment Environment
+     * @param environment The dropwizard {@linkplain Environment}
      */
     public void addSwaggerServlet(Environment environment) {
         // add the servlet for static swagger UI assets (need to put leanix-swagger-ui into the classpath)
