@@ -7,7 +7,7 @@
     <artifactId>leanix-swagger-ui</artifactId>
     <packaging>jar</packaging>
 
-    <version>0.1.10</version>
+    <version>0.1.11-SNAPSHOT</version>
 
     <name>leanix-swagger-ui</name>
     <description>Provides the assets for the swagger GUI of leanix services</description>
